@@ -18,7 +18,6 @@
 
 		<snakeyaml.version>2.0</snakeyaml.version>
 
-		<!-- test libraries -->
 		<maven.checkstyle-plugin.version>3.3.0</maven.checkstyle-plugin.version>
 		<checkstyle.version>10.12.3</checkstyle.version>
 	</properties>
