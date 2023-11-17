@@ -1,4 +1,4 @@
-package readiness.probe;
+package com.github.paolodenti.readiness.probe;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.springframework.boot.actuate.availability.ReadinessStateHealthIndicator;

@@ -1,11 +1,11 @@
-package readiness.service;
+package com.github.paolodenti.readiness.service;
 
+import com.github.paolodenti.readiness.probe.CustomReadinessIndicator;
 import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import readiness.probe.CustomReadinessIndicator;
 
 @Service
 @Slf4j
@@ -16,7 +16,7 @@ public class StartupSimulatorService {
     private final CustomReadinessIndicator customReadinessIndicator;
 
     /**
-     * Fake startup simulation, updating the readiness status every 10 seconds.
+     * Fake startup simulation, flipping the readiness status every 10 seconds.
      */
     @Scheduled(initialDelay = 10000, fixedDelay = 10000)
     public void simulateStartup() {

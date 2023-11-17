@@ -1,4 +1,4 @@
-package readiness;
+package com.github.paolodenti.readiness;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
