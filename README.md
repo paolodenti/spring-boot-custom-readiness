@@ -39,15 +39,18 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            - name: monitoring
+              containerPort: 9000
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
-              port: 9000
+              port: monitoring
             initialDelaySeconds: 20
           readinessProbe:
             httpGet:
               path: /actuator/health/readiness
-              port: 9000
+              port: monitoring
             initialDelaySeconds: 20
             failureThreshold: 30
             periodSeconds: 10
