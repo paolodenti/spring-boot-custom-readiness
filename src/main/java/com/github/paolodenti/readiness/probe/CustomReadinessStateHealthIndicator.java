@@ -7,12 +7,12 @@ import org.springframework.boot.availability.AvailabilityState;
 import org.springframework.boot.availability.ReadinessState;
 import org.springframework.stereotype.Component;
 
-@Component
-public class CustomReadinessIndicator extends ReadinessStateHealthIndicator {
+@Component("customReadinessState")
+public class CustomReadinessStateHealthIndicator extends ReadinessStateHealthIndicator {
 
     private final AtomicBoolean ready = new AtomicBoolean(false);
 
-    public CustomReadinessIndicator(ApplicationAvailability availability) {
+    public CustomReadinessStateHealthIndicator(ApplicationAvailability availability) {
 
         super(availability);
     }

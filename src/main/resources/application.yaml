@@ -16,7 +16,7 @@ management:
     health:
       group:
         readiness:
-          include: readinessState, customReadinessIndicator
+          include: readinessState, customReadinessState
       enabled: true
       show-details: always
       probes:

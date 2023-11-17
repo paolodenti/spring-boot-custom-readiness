@@ -1,6 +1,6 @@
 package com.github.paolodenti.readiness.service;
 
-import com.github.paolodenti.readiness.probe.CustomReadinessIndicator;
+import com.github.paolodenti.readiness.probe.CustomReadinessStateHealthIndicator;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StartupSimulatorService implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final CustomReadinessIndicator customReadinessIndicator;
+    private final CustomReadinessStateHealthIndicator customReadinessStateHealthIndicator;
 
     /**
      * Slow startup simulation, setting readiness to up after 15 seconds.
@@ -28,7 +28,7 @@ public class StartupSimulatorService implements ApplicationListener<ApplicationR
                 TimeUnit.SECONDS.sleep(15L);
 
                 log.info("Startup has completed, setting readiness to up");
-                customReadinessIndicator.setReadyStatus(true);
+                customReadinessStateHealthIndicator.setReadyStatus(true);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
