@@ -1,4 +1,4 @@
-package readiness.web;
+package com.github.paolodenti.readiness.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
