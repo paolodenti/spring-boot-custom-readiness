@@ -1,4 +1,4 @@
-# Spring Boot Custom Readiness custom probe
+# Spring Boot Custom Readiness Probe
 
 Custom readiness probe to set readiness to `up` when the service is ready.
 
