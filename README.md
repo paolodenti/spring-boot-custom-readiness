@@ -1,6 +1,12 @@
 # Spring Boot Custom Readiness Probe
 
-Custom readiness probe to set readiness to `up` when the service is ready.
+If your service has a slow startup,
+you might want to delay the readiness of the service until the stuatup is completed,
+letting k8s to manage when to expose the API port.
+
+This example shows how to implement a custom readiness probe for Spring Boot,
+
+The readiness will go `up` only when the service slow startup is completed.
 
 Every 10 seconds the readiness state flips between `up` and `down`.
 
