@@ -1,7 +1,7 @@
 # Spring Boot Custom Readiness Probe
 
 If your service has a slow startup,
-you might want to delay the readiness of the service until the stuatup is completed,
+you might want to delay the readiness of the service until the startup is completed,
 letting k8s to manage when to expose the API port.
 
 This example shows how to implement a custom readiness probe for Spring Boot,
