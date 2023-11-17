@@ -1,10 +1,10 @@
 package com.github.paolodenti.readiness.service;
 
 import com.github.paolodenti.readiness.probe.CustomReadinessIndicator;
-import java.util.concurrent.atomic.AtomicBoolean;
+import jakarta.annotation.PostConstruct;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,17 +12,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StartupSimulatorService {
 
-    private final AtomicBoolean ready = new AtomicBoolean(false);
     private final CustomReadinessIndicator customReadinessIndicator;
 
     /**
-     * Fake startup simulation, flipping the readiness status every 10 seconds.
+     * Slow startup simulation, setting readiness to up after 15 seconds.
      */
-    @Scheduled(initialDelay = 10000, fixedDelay = 10000)
-    public void simulateStartup() {
+    @PostConstruct
+    private void postConstruct() {
 
-        ready.set(!ready.get());
-        log.info("Readiness going {}", ready.get() ? "up" : "down");
-        customReadinessIndicator.setReadyStatus(ready.get());
+        new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(15L);
+
+                log.info("Readiness going up");
+                customReadinessIndicator.setReadyStatus(true);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
     }
 }

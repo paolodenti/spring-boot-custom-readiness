@@ -6,9 +6,9 @@ letting k8s to manage when to expose the API port.
 
 This example shows how to implement a custom readiness probe for Spring Boot,
 
-The readiness will go `up` only when the service slow startup is completed.
+The readiness will go `up` after 15 seconds (simulating a slow startup).
 
-Every 10 seconds the readiness state flips between `up` and `down`.
+## How to run
 
 Start the app with `./mvnw spring-boot:run` and
 then run `curl http://localhost:9000/actuator/health/readiness`
