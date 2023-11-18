@@ -1,5 +1,8 @@
 # Spring Boot Custom Readiness Probe
 
+[![Integration Tests](https://github.com/paolodenti/spring-boot-custom-readiness/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/paolodenti/spring-boot-custom-readiness/actions/workflows/integration-tests.yaml)
+[![Build and Publish](https://github.com/paolodenti/spring-boot-custom-readiness/actions/workflows/build-publish.yaml/badge.svg)](https://github.com/paolodenti/spring-boot-custom-readiness/actions/workflows/build-publish.yaml)
+
 This example shows how to implement a custom readiness probe for Spring Boot,
 
 If your service has a slow startup,
