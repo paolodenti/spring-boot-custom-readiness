@@ -19,6 +19,12 @@ The `notready` endpoint can be invoked by the preStop hook in k8s to signal the 
 * after 15 seconds, the readiness state should change to `UP`.
 * run `curl http://localhost:9000/actuator/notready` to signal the application (pod) to stop receiving traffic.
 
+## Docker image
+
+A docker image is available at `paolodenti/readiness`.
+
+`docker run --rm -p 8080:8080 -p 9000:9000 paolodenti/readiness`
+
 ## Use in k8s
 
 The contrived example below can be used to use the custom readiness probe in k8s.
@@ -33,19 +39,19 @@ before the pod is considered unhealthy.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: thepod
+  name: readiness
 spec:
   selector:
     matchLabels:
-      app: thepod
+      app: readiness
   template:
     metadata:
       labels:
-        app: thepod
+        app: readiness
     spec:
       containers:
         - name: thepod
-          image: "theimage:thetag"
+          image: "paolodenti/readiness:latest"
           ports:
             - name: http
               containerPort: 8080
