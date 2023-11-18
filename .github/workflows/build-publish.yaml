@@ -41,6 +41,11 @@ jobs:
           PROJVERSION="$(make version)"
           echo "versionimage=${PROJVERSION}" >> $GITHUB_OUTPUT
 
+      - name: Tag the new version
+        run: |
+          git tag ${{ steps.projectversion.outputs.versionimage }}
+          git push origin ${{ steps.projectversion.outputs.versionimage }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
         with:
