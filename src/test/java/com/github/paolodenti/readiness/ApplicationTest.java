@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,7 +32,8 @@ class ApplicationTest {
     private MockMvc mockMvc;
 
     @Test
-    void contextLoads() throws Exception {
+    @DisplayName("Readiness test")
+    void readinessTest() throws Exception {
 
         TestRestTemplate testRestTemplate = new TestRestTemplate();
 
