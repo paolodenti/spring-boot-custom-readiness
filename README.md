@@ -39,7 +39,7 @@ Te readiness will go to `up` after 15 seconds, when both services are ready.
 
 A docker image is available at `paolodenti/readiness`.
 
-`docker run --rm -p 8080:8080 -p 9000:9000 paolodenti/readiness`
+`docker run --rm -p 8080:8080 -p 9000:9000 paolodenti/readiness:latest`
 
 ## Use in k8s
 
