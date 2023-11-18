@@ -38,6 +38,8 @@ After the initial delay, the probe will check every 10 seconds (`periodSeconds`)
 and it is allowed to fail 30 times in a row (`failureThreshold`)
 before the pod is considered unhealthy.
 
+Also, the `preStop` is set to `/actuator/notready`, to have k8s setting to `down` the readiness of the service.
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
