@@ -1,6 +1,5 @@
 package com.github.paolodenti.readiness.probe;
 
-import com.github.paolodenti.readiness.probe.CustomReadinessStateHealthIndicator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
@@ -16,6 +15,11 @@ public class CustomReadinessStateController {
 
     private final CustomReadinessStateHealthIndicator customReadinessStateHealthIndicator;
 
+    /**
+     * Set readiness to down.
+     *
+     * @return 200 OK
+     */
     @GetMapping
     public ResponseEntity<Void> notready() {
 
