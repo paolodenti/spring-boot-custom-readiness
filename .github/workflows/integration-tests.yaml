@@ -25,5 +25,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Extract project version
+        id: projectversion
+        run: |
+          PROJVERSION="$(make version)"
+          echo "versionimage=${PROJVERSION}" >> $GITHUB_OUTPUT
+
+      - uses: mukunku/tag-exists-action@v1.4.0
+        id: checkTag
+        with:
+          tag: ${{ steps.projectversion.outputs.versionimage }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: |
+          if [ "${{ steps.checkTag.outputs.exists }}" == "true" ]; then
+            echo "Tag '${{ steps.projectversion.outputs.versionimage }}' exists."
+            echo "Run 'make upgrade'."
+            exit 1
+          fi
+
       - name: Test
         run: make test

@@ -39,9 +39,6 @@ jobs:
         id: projectversion
         run: |
           PROJVERSION="$(make version)"
-          echo "Project version is ${PROJVERSION}"
-
-          # Set output parameters.
           echo "versionimage=${PROJVERSION}" >> $GITHUB_OUTPUT
 
       - name: Set up QEMU
