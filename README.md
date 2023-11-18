@@ -3,17 +3,30 @@
 [![Integration Tests](https://github.com/paolodenti/spring-boot-custom-readiness/actions/workflows/integration-tests.yaml/badge.svg)](https://github.com/paolodenti/spring-boot-custom-readiness/actions/workflows/integration-tests.yaml)
 [![Build and Publish](https://github.com/paolodenti/spring-boot-custom-readiness/actions/workflows/build-publish.yaml/badge.svg)](https://github.com/paolodenti/spring-boot-custom-readiness/actions/workflows/build-publish.yaml)
 
-This example shows how to implement a custom readiness probe for Spring Boot,
+This example shows how to implement a custom readiness probe for Spring Boot for k8s or Docker compose deployments.
 
 If your service has a slow startup,
 you might want to delay the readiness of the service until the startup is completed,
-letting k8s to manage when to expose the API port.
+letting k8s to manage when to expose the API port (8080).
 
-The readiness will go `up` 15 seconds after the application has fully started (simulating a slow startup).
+Also you might want to implement a graceful shutdown shutdown,
+setting the readiness to down, when k8s sends a preStop signal.
 
-Also, to manage the shutdown of the service, the app exposes a `/actuator/notready` endpoint.
+## How it works
 
-The `notready` endpoint can be invoked by the preStop hook in k8s to signal the pod to stop receiving traffic.
+`CustomReadinessStateHealthIndicator` provide a custom readiness actuator probe,
+asking every `CustomReadinessProvider` implementation if the service is ready.
+
+The probe is registered at `/actuator/health/readiness` as an additional readiness component
+with name `customReadinessState`.
+
+`CustomReadinessStateController` implements an actuator endpoint to set the readiness state of the service,
+invokable by the preStop lifecycle hook in k8s.
+
+As an implementation example, `Slow1StartupSimulatorService` sets ready to `up` after 10 seconds and
+`Slow2StartupSimulatorService` sets ready to `up` after 15 seconds.
+
+Te readiness will go to `up` after 15 seconds, when both services are ready.
 
 ## How to run
 
@@ -41,6 +54,18 @@ before the pod is considered unhealthy.
 Also, the `preStop` is set to `/actuator/notready`, to have k8s setting to `down` the readiness of the service.
 
 ```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: readiness
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: readiness
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
