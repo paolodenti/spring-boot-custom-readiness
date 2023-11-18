@@ -31,13 +31,13 @@ jobs:
           PROJVERSION="$(make version)"
           echo "versionimage=${PROJVERSION}" >> $GITHUB_OUTPUT
 
-      - uses: mukunku/tag-exists-action@v1.4.0
+      - name: Check if tag exists
+        uses: mukunku/tag-exists-action@v1.4.0
         id: checkTag
         with:
           tag: ${{ steps.projectversion.outputs.versionimage }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: |
+        run: |
           if [ "${{ steps.checkTag.outputs.exists }}" == "true" ]; then
             echo "Tag '${{ steps.projectversion.outputs.versionimage }}' exists."
             echo "Run 'make upgrade'."
