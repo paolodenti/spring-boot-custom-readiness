@@ -31,14 +31,14 @@ jobs:
           PROJVERSION="$(make version)"
           echo "versionimage=${PROJVERSION}" >> $GITHUB_OUTPUT
 
-      - name: Check if tag exists 1/2
+      - name: Check if tag as project version exists
         uses: mukunku/tag-exists-action@v1.4.0
         id: checkTag
         with:
           tag: ${{ steps.projectversion.outputs.versionimage }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check if tag exists 2/2
+      - name: Compare tag with project version
         run: |
           if [ "${{ steps.checkTag.outputs.exists }}" == "true" ]; then
             echo "Tag '${{ steps.projectversion.outputs.versionimage }}' exists."
