@@ -41,12 +41,16 @@ jobs:
           PROJVERSION="$(make version)"
           echo "versionimage=${PROJVERSION}" >> $GITHUB_OUTPUT
 
-      - name: Tag the new version
-        run: |
-          git tag ${{ steps.projectversion.outputs.versionimage }}
-          git push origin ${{ steps.projectversion.outputs.versionimage }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create tag from the project version
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.projectversion.outputs.versionimage }}',
+              sha: context.sha
+            })
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
@@ -72,17 +76,6 @@ jobs:
           platforms: ${{ env.PLATFORMS }}
           push: true
           tags: ${{ env.DOCKER_IMAGE }}:${{ steps.projectversion.outputs.versionimage }} , ${{ env.DOCKER_IMAGE }}:latest
-
-      - name: Create tag from pom.xml
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ steps.projectversion.outputs.versionimage }}',
-              sha: context.sha
-            })
 
       - name: Summary
         id: summary
