@@ -45,6 +45,8 @@ jobs:
         run: |
           git tag ${{ steps.projectversion.outputs.versionimage }}
           git push origin ${{ steps.projectversion.outputs.versionimage }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@master
