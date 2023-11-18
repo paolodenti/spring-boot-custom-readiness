@@ -10,11 +10,14 @@
 	</parent>
 	<groupId>com.github.paolodenti</groupId>
 	<artifactId>readiness</artifactId>
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 	<name>readiness</name>
 	<description>Readiness</description>
 	<properties>
 		<java.version>17</java.version>
+
+		<awaitility.version>4.2.0</awaitility.version>
+
 		<maven.checkstyle-plugin.version>3.3.0</maven.checkstyle-plugin.version>
 		<checkstyle.version>10.12.3</checkstyle.version>
 	</properties>
@@ -35,6 +38,19 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- test support -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>${awaitility.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -54,6 +70,7 @@
 					<configLocation>checkstyle.xml</configLocation>
 					<sourceDirectories>
 						<sourceDirectory>src/main/java</sourceDirectory>
+						<sourceDirectory>src/test/java</sourceDirectory>
 					</sourceDirectories>
 				</configuration>
 				<executions>
@@ -64,6 +81,7 @@
 						<configuration>
 							<sourceDirectories>
 								<sourceDirectory>src/main/java</sourceDirectory>
+								<sourceDirectory>src/test/java</sourceDirectory>
 							</sourceDirectories>
 							<failOnViolation>true</failOnViolation>
 						</configuration>

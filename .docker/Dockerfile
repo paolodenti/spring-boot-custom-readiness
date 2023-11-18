@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN ./mvnw --no-transfer-progress clean package -DskipTests=true
+RUN ./mvnw --no-transfer-progress clean package -DskipTests=true -Dcheckstyle.skip=true
 
 FROM amazoncorretto:17.0.9
 
