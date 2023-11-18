@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.github.paolodenti</groupId>
 	<artifactId>readiness</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>readiness</name>
 	<description>Readiness</description>
 	<properties>

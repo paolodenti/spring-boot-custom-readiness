@@ -1,5 +1,6 @@
 package com.github.paolodenti.readiness.probe;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 @RestControllerEndpoint(id = "notready")
 @RequiredArgsConstructor
-public class CustomReadinessStateController {
+public class CustomReadinessStateController implements CustomReadinessProvider {
 
-    private final CustomReadinessStateHealthIndicator customReadinessStateHealthIndicator;
+    private final AtomicBoolean ready = new AtomicBoolean(true);
 
     /**
      * Set readiness to down.
@@ -24,7 +25,13 @@ public class CustomReadinessStateController {
     public ResponseEntity<Void> notready() {
 
         log.info("Setting readiness to down");
-        customReadinessStateHealthIndicator.setReadyStatus(false);
+        ready.set(false);
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public boolean isReady() {
+
+        return ready.get();
     }
 }
