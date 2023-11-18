@@ -1,18 +1,23 @@
 # Spring Boot Custom Readiness Probe
 
+This example shows how to implement a custom readiness probe for Spring Boot,
+
 If your service has a slow startup,
 you might want to delay the readiness of the service until the startup is completed,
 letting k8s to manage when to expose the API port.
 
-This example shows how to implement a custom readiness probe for Spring Boot,
-
 The readiness will go `up` 15 seconds after the application has fully started (simulating a slow startup).
+
+Also, to manage the shutdown of the service, the app exposes a `/actuator/notready` endpoint.
+
+The `notready` endpoint can be invoked by the preStop hook in k8s to signal the pod to stop receiving traffic.
 
 ## How to run
 
-Start the app with `./mvnw spring-boot:run` and
-then run `curl http://localhost:9000/actuator/health/readiness`
-to see the current readiness state.
+* Start the app with `./mvnw spring-boot:run`
+* run `curl http://localhost:9000/actuator/health/readiness` to see the current readiness state.
+* after 15 seconds, the readiness state should change to `UP`.
+* run `curl http://localhost:9000/actuator/notready` to signal the application (pod) to stop receiving traffic.
 
 ## Use in k8s
 
@@ -60,4 +65,9 @@ spec:
             initialDelaySeconds: 20
             failureThreshold: 30
             periodSeconds: 10
+          lifecycle:
+            preStop:
+              httpGet:
+                path: /actuator/notready
+                port: monitoring
 ```
