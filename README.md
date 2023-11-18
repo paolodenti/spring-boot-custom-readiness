@@ -12,6 +12,15 @@ letting k8s to manage when to expose the API port (8080).
 Also you might want to implement a graceful shutdown shutdown,
 setting the readiness to down, when k8s sends a preStop signal.
 
+## How to run
+
+* Start the app with `./mvnw spring-boot:run`
+* run `curl http://localhost:9000/actuator/health/readiness` to see the current readiness state (`OUT_OF_SERVICE`).
+* after 10 seconds, the first service becomes ready, the readiness state is still `OUT_OF_SERVICE`.
+* after 5 additional seconds, the second service becomes ready, the readiness state changes to `UP`.
+* run `curl http://localhost:9000/actuator/notready` to signal the application (pod) to stop receiving traffic.
+* run `curl http://localhost:9000/actuator/health/readiness` to see the current readiness is `OUT_OF_SERVICE`.
+
 ## How it works
 
 `CustomReadinessStateHealthIndicator` provide a custom readiness actuator probe,
@@ -27,13 +36,6 @@ As an implementation example, `Slow1StartupSimulatorService` sets ready to `up` 
 `Slow2StartupSimulatorService` sets ready to `up` after 15 seconds.
 
 Te readiness will go to `up` after 15 seconds, when both services are ready.
-
-## How to run
-
-* Start the app with `./mvnw spring-boot:run`
-* run `curl http://localhost:9000/actuator/health/readiness` to see the current readiness state.
-* after 15 seconds, the readiness state should change to `UP`.
-* run `curl http://localhost:9000/actuator/notready` to signal the application (pod) to stop receiving traffic.
 
 ## Docker image
 
