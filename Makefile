@@ -25,6 +25,13 @@ version:
 VERSION="$$(./mvnw org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" && \
 echo "$${VERSION}"
 
+.PHONY: upgrade
+upgrade:
+	@cd $(ROOT_DIR) && \
+VERSION="$$(./mvnw org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)" && \
+NEXTVERSION=$$(echo $${VERSION} | awk -F. -v OFS=. '{$$NF += 1 ; print}') && \
+echo "$${NEXTVERSION}" | ./mvnw versions:set -DgenerateBackupPoms=false
+
 .PHONY: clean
 clean:
 	@cd $(ROOT_DIR) && \
